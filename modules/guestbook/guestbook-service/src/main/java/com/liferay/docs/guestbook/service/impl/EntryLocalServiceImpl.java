@@ -50,39 +50,38 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link com.liferay.docs.guestbook.service.EntryLocalServiceUtil} to access the entry local service.
 	 */
 	
-	public Entry addEntry(
-	    long userId, long guestbookId, String name, String email,
-	    String message, ServiceContext serviceContext)
-	    throws PortalException {
+	public Entry addEntry(long userId, long guestbookId, String name, String email,
+	        String message, ServiceContext serviceContext)
+	        throws PortalException {
 
-	    long groupId = serviceContext.getScopeGroupId();
+	        long groupId = serviceContext.getScopeGroupId();
 
-	    User user = userLocalService.getUserById(userId);
+	        User user = userLocalService.getUserById(userId);
 
-	    Date now = new Date();
+	        Date now = new Date();
 
-	    validate(name, email, message);
+	        validate(name, email, message);
 
-	    long entryId = counterLocalService.increment();
+	        long entryId = counterLocalService.increment();
 
-	    Entry entry = entryPersistence.create(entryId);
+	        Entry entry = entryPersistence.create(entryId);
 
-	    entry.setUuid(serviceContext.getUuid());
-	    entry.setUserId(userId);
-	    entry.setGroupId(groupId);
-	    entry.setCompanyId(user.getCompanyId());
-	    entry.setUserName(user.getFullName());
-	    entry.setCreateDate(serviceContext.getCreateDate(now));
-	    entry.setModifiedDate(serviceContext.getModifiedDate(now));
-	    entry.setExpandoBridgeAttributes(serviceContext);
-	    entry.setGuestbookId(guestbookId);
-	    entry.setName(name);
-	    entry.setEmail(email);
-	    entry.setMessage(message);
+	        entry.setUuid(serviceContext.getUuid());
+	        entry.setUserId(userId);
+	        entry.setGroupId(groupId);
+	        entry.setCompanyId(user.getCompanyId());
+	        entry.setUserName(user.getFullName());
+	        entry.setCreateDate(serviceContext.getCreateDate(now));
+	        entry.setModifiedDate(serviceContext.getModifiedDate(now));
+	        entry.setExpandoBridgeAttributes(serviceContext);
+	        entry.setGuestbookId(guestbookId);
+	        entry.setName(name);
+	        entry.setEmail(email);
+	        entry.setMessage(message);
 
-	    entryPersistence.update(entry);
+	        entryPersistence.update(entry);
 
-	    return entry;
+	        return entry;
 	}
 	
 	public Entry updateEntry (
@@ -122,20 +121,20 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	}
 	
 	public List<Entry> getEntries(long groupId, long guestbookId) {
-	    return entryPersistence.findByG_G(groupId, guestbookId);
-	}
+        return entryPersistence.findByG_G(groupId, guestbookId);
+    }
 
-	public List<Entry> getEntries(long groupId, long guestbookId, int start, int end)
-	    throws SystemException {
+    public List<Entry> getEntries(
+        long groupId, long guestbookId, int start, int end, OrderByComparator<Entry> obc) {
 
-	    return entryPersistence.findByG_G(groupId, guestbookId, start, end);
-	}
+        return entryPersistence.findByG_G(groupId, guestbookId, start, end, obc);
+    }
 
-	public List<Entry> getEntries(
-	    long groupId, long guestbookId, int start, int end, OrderByComparator<Entry> obc) {
+    public List<Entry> getEntries(long groupId, long guestbookId, int start, int end)
+        throws SystemException {
 
-	    return entryPersistence.findByG_G(groupId, guestbookId, start, end, obc);
-	}
+        return entryPersistence.findByG_G(groupId, guestbookId, start, end);
+    }
 
 	public int getEntriesCount(long groupId, long guestbookId) {
 	    return entryPersistence.countByG_G(groupId, guestbookId);
